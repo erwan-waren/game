@@ -14,15 +14,17 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.*;
 
-public  class Empty_windows extends BasicGame  {
+public  class Empty_windows extends BasicGameState  {
 
+	public final static int ID = 2;
+	
 	private GameContainer container;
-
 	private TiledMap map;
 	private float x = 300, y = 300;
 	private float x1=300,y1=500;
@@ -42,7 +44,7 @@ public  class Empty_windows extends BasicGame  {
 
 
 	public Empty_windows() {
-		super("Le Jeu");
+		super();
 		System.out.println("le hero se nomme "+Username);
 		System.out.println("Il a "+hero.Hp+" Hp");
 
@@ -50,7 +52,7 @@ public  class Empty_windows extends BasicGame  {
 
 
 
-	public void render(GameContainer container, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.translate(container.getWidth() / 2 - (int) this.xCamera,container.getHeight() / 2 - (int) this.yCamera); 
 		this.map.render(0,0);
 		g.drawAnimation(animations[direction + (moving ? 4 : 0)], x, y);
@@ -63,7 +65,7 @@ public  class Empty_windows extends BasicGame  {
 	
 
 
-	public void init(GameContainer container) throws SlickException {
+	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 
 		this.hero.sprite = sprite;
 		this.container = container;
@@ -94,7 +96,7 @@ this.map = new TiledMap("main/java/map/test_collision_01.tmx");
 
 
 
-	public void update(GameContainer container, int delta) throws SlickException 
+	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException 
 	{
 
 		if (this.moving) {
@@ -187,6 +189,14 @@ this.map = new TiledMap("main/java/map/test_collision_01.tmx");
 			this.moving = true;
 			break;
 		}
+	}
+
+
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
 	}
 
 

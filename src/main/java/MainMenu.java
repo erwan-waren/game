@@ -8,7 +8,9 @@ import java.awt.Font;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.*;
 
-public class MainMenu extends BasicGame implements GameState {
+public class MainMenu extends BasicGameState  {
+	private StateBasedGame sbg;
+	private final static int ID = 1;
 	private int playersChoice = 0;
 	private static final int NOCHOICES = 5;
 	private static final int START = 0;
@@ -24,10 +26,10 @@ public class MainMenu extends BasicGame implements GameState {
 	TextField commandBox;
 	  
 	public MainMenu() {
-		super("Menu Principal");
+		super();
 	}
 
-	public void init(GameContainer gc) throws SlickException {
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 		commandBox = new TextField(gc,null,20,20,80,5);
 		
@@ -48,8 +50,7 @@ public class MainMenu extends BasicGame implements GameState {
 
 	}
 
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_DOWN)) {
@@ -76,12 +77,13 @@ public class MainMenu extends BasicGame implements GameState {
 				exit = true;
 				break;
 			case START:
+				sbg.enterState(Empty_windows.ID);
 				
-				AppGameContainer Jeu =
+	/*			AppGameContainer Jeu =
 				new AppGameContainer(new Empty_windows());
 				
 				Jeu.isFullscreen();
-				Jeu.start();
+				Jeu.start();*/
 		
 			
 				
@@ -101,8 +103,8 @@ public class MainMenu extends BasicGame implements GameState {
 		}
 	}
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
 		
 		
@@ -122,14 +124,7 @@ public class MainMenu extends BasicGame implements GameState {
 
 	}
 
-	public static void main(String[] args)
-			throws SlickException {
-		AppGameContainer app =
-				new AppGameContainer(new MainMenu());
-		app.setDisplayMode(900, 700, false);
-		app.start();
-		
-	}
+	
 
 	private void renderPlayersOptions() {
 		for (int i = 0; i < NOCHOICES; i++) {
@@ -150,39 +145,11 @@ public class MainMenu extends BasicGame implements GameState {
 	}
 
 	@Override
-	public void enter(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return ID;
 	}
 
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void leave(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
 
