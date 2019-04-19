@@ -23,58 +23,70 @@ import java.*;
 public  class Empty_windows extends BasicGameState  {
 
 	public final static int ID = 2;
-	
+
 	private GameContainer container;
+
+	//carte du jeu
 	private TiledMap map;
 	private float x = 300, y = 300;
-	private float x1=300,y1=500;
+
+	//camera
+	private float xCamera = x, yCamera = y;
+
+	// hero
 	private int direction = 0;
 	private boolean moving = false;
 	private Animation[] animations = new Animation[8];
-	private float xCamera = x, yCamera = y;
-	String sprite ="/src/main/java/sprites/char_01.png";
-	String png1 = "/src/main/java/sprites/char_03.png";
-
-	String Png2 = "/src/main/java/sprites/char_03.png";
-	String Png3 = "/src/main/java/sprites/char_04.png";
-	String Png4 = "/src/main/java/sprites/char_05.png";
+	String sprite ;
 	String Username = "Stroheim";
 	byte classe = 0;
-	CreateCharacter hero = new CreateCharacter (Username,classe,sprite);
+	
+	String pnj1 = "/src/main/java/image/brigand_02.png";
+	String pnj2 = "/src/main/java/image/troubadour_05.png";
+	private float x1=300,y1=500;
+	private float x2=150,y2=500;
 
 
-	public Empty_windows() {
+
+
+
+
+	public Empty_windows() throws SlickException {
 		super();
-		System.out.println("le hero se nomme "+Username);
-		System.out.println("Il a "+hero.Hp+" Hp");
-
+		
+	
+		
 	}
 
 
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
+		// camera
 		g.translate(container.getWidth() / 2 - (int) this.xCamera,container.getHeight() / 2 - (int) this.yCamera); 
+		
+		// carte du jeu
 		this.map.render(0,0);
+		// hero
 		g.drawAnimation(animations[direction + (moving ? 4 : 0)], x, y);
-		Image Png1 = new Image("/src/main/java/sprites/char_03.png");
-		g.drawImage(Png1, x1, y1);
+
+		// pnj
+		Image Pnj1 = new Image(pnj1);
+		g.drawImage(Pnj1, x1, y1);
+		Image Pnj2 = new Image(pnj2);
+		g.drawImage(Pnj2, x2, y2);
 	}
 
-	
-	
-	
 
 
-	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 
-		this.hero.sprite = sprite;
-		this.container = container;
-this.map = new TiledMap("main/java/map/test_collision_01.tmx");
-		Music background = new Music("main/java/sound/low_sound.ogg");
-		background.loop();
-		
+	public void enter (GameContainer container, StateBasedGame sbg) throws SlickException {
+		System.out.println("le hero se nomme "+MainMenu.Username+" dans le jeu");
+		Music background1 = new Music("main/java/sound/low_sound.ogg");
+		 background1.loop();
+		this.sprite = MainMenu.Sprite;
+
 		SpriteSheet spriteSheet = new 
-				SpriteSheet(hero.sprite, 26, 36);
+				SpriteSheet(sprite, 26, 36);
 		this.animations[0] = loadAnimation(spriteSheet, 0, 1, 3);
 		this.animations[1] = loadAnimation(spriteSheet, 0, 1, 1);
 		this.animations[2] = loadAnimation(spriteSheet, 0, 1, 0);
@@ -83,7 +95,17 @@ this.map = new TiledMap("main/java/map/test_collision_01.tmx");
 		this.animations[5] = loadAnimation(spriteSheet, 1, 3, 1);
 		this.animations[6] = loadAnimation(spriteSheet, 1, 3, 0);
 		this.animations[7] = loadAnimation(spriteSheet, 1, 3, 2);
-		container.setFullscreen(true);
+		
+	}
+
+	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
+	
+		
+		this.container = container;
+		this.map = new TiledMap("main/java/map/test_collision_01.tmx");
+		
+
+		//container.setFullscreen(true);
 	}
 	private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 		Animation animation = new Animation();
@@ -115,7 +137,7 @@ this.map = new TiledMap("main/java/map/test_collision_01.tmx");
 
 	}
 
-	
+
 	boolean isCollision(float x, float y) {
 		int tileW = this.map.getTileWidth();
 		int tileH = this.map.getTileHeight();
@@ -201,6 +223,6 @@ this.map = new TiledMap("main/java/map/test_collision_01.tmx");
 
 
 
-	
+
 
 }

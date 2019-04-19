@@ -5,37 +5,66 @@ import org.newdawn.slick.*;
 
 
 import java.awt.Font;
+
+import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.*;
 
-public class MainMenu extends BasicGameState  {
+public class MainMenu extends BasicGameState   {
+	
+	static String Sprite = "/src/main/java/sprites/B5.png";
+	private int Classe;
+	
 	private StateBasedGame sbg;
+	
 	private final static int ID = 1;
+	
 	private int playersChoice = 0;
-	private static final int NOCHOICES = 5;
+	private static final int NOCHOICES = 6;
 	private static final int START = 0;
-	private static final int SAVE = 1;
-	private static final int LOAD = 2;
-	private static final int OPTIONS = 3;
-	private static final int QUIT = 4;
+	private static final int HERO = 1;
+	private static final int SAVE = 2;
+	private static final int LOAD = 3;
+	private static final int OPTIONS = 4;
+	private static final int QUIT = 5;
 	private String[] playersOptions = new String[NOCHOICES];
-	private boolean exit = false;
 	private Font font;
 	private TrueTypeFont playersOptionsTTF, foo;
-	private Color notChosen = new Color(153, 204, 255);
-	TextField commandBox;
-	  
-	public MainMenu() {
+	private Color notChosen = new Color(25, 50, 255);
+	
+	private boolean exit = false;
+	
+	
+	
+	static String Username ;
+
+	
+	private Color bord = new Color(7,111,21);
+	
+	public MainMenu() throws SlickException {
 		super();
+		
+	}
+	
+	public void enter (GameContainer container, StateBasedGame sbg) throws SlickException{
+		Music background1 = new Music("main/java/sound/menu_sound.ogg");
+		 background1.loop();
+		
+		this.Sprite = CreateCharacterMenu.Sprite;
+		this.Username = CreateCharacterMenu.Username;
+		this.Classe = CreateCharacterMenu.classe;
+		CreateCharacter hero = new CreateCharacter (Username, Classe, Sprite);
+		this.Sprite = hero.Sprite;
+		
+		this.Classe = hero.Classe;
+		System.out.println(Username+"  "+Classe+"  "+this.Sprite );
 	}
 
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+
+
+	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
+	
 		
-		commandBox = new TextField(gc,null,20,20,80,5);
-		
-		 Music background1 = new Music("main/java/sound/menu_sound.ogg");
-		    background1.loop();
-		 //   String texte = "";
 		
 		font = new Font("Verdana", Font.BOLD, 40);
 		playersOptionsTTF = new TrueTypeFont(font, true);
@@ -43,16 +72,23 @@ public class MainMenu extends BasicGameState  {
 		setFoo(new TrueTypeFont(font, true));
 		
 		playersOptions[0] = "Nouvelle Partie";
-		playersOptions[1] = "Sauvegarder";
-		playersOptions[2] = "Charger";
-		playersOptions[3] = "Options";
-		playersOptions[4] = "Sortie";
-
+		playersOptions[1] = "creer un hero";
+		playersOptions[2] = "Sauvegarder";
+		playersOptions[3] = "Charger";
+		playersOptions[4] = "Options";
+		playersOptions[5] = "Sortie";
+		
 	}
 
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException  {
+	
 		
-		Input input = gc.getInput();
+		
+		
+		
+		
+		
+		Input input = container.getInput();
 		if (input.isKeyPressed(Input.KEY_DOWN)) {
 			if (playersChoice == (NOCHOICES - 1)) {
 				playersChoice = 0;
@@ -77,15 +113,9 @@ public class MainMenu extends BasicGameState  {
 				exit = true;
 				break;
 			case START:
-				sbg.enterState(Empty_windows.ID);
-				
-	/*			AppGameContainer Jeu =
-				new AppGameContainer(new Empty_windows());
-				
-				Jeu.isFullscreen();
-				Jeu.start();*/
-		
+				sbg.enterState(2);
 			
+				System.out.println("le hero se nomme "+CreateCharacterMenu.Username);
 				
 				
 			   break;
@@ -99,31 +129,43 @@ public class MainMenu extends BasicGameState  {
 				
 				
 				break;
+			case HERO:
+				sbg.enterState(3);
+				
+				break;
+			
 			}
 		}
 	}
 
 
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
 
 		
 		
 		if (exit) {
-			gc.exit();
+			container.exit();
 		}
 		Image background = new Image("/src/main/java/image/menu.png"); 
 	
 		g.drawImage(background, -200, 0);
 	
-	g.drawString("Stroheim Adventure", 350, 50);
+	
 	
 
 	
 
 		renderPlayersOptions();
 
-	}
+		
+	//	commandBox.setText("Stroheim");
 
+
+
+	}
+public void leave(GameContainer container, StateBasedGame sbg) throws SlickException {
+	
+}
 	
 
 	private void renderPlayersOptions() {
