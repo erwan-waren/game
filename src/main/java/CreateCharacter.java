@@ -4,13 +4,16 @@
 package main.java;
 
 import org.newdawn.slick.Image;
+//import static main.java.Consts.PATH_TO_IMAGES;
 
 /**
  * @author chevalier
  *
  */
 public class CreateCharacter {
-	String G1 = new String ("/src/main/java/sprites/G1.png");
+	
+	
+	String G1 = new String ("/src/main/java/spritesG1.png");
 	String G2 = new String ("/src/main/java/sprites/G2.png");
 	String G3 = new String ("/src/main/java/sprites/G3.png");
 	String G4 = new String ("/src/main/java/sprites/G4.png");
